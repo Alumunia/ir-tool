@@ -1,0 +1,93 @@
+<included>
+
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%X{key}]%date{"yyyy-MM-dd'T'HH:mm:ss,SSSXXX", UTC} %-5level %logger{35} - %msg %n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="spring" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${catalina.home:-.}/logs/x/search-ui/spring.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${catalina.home:-.}/logs/x/archive/search-ui/spring.%d{yyyy-MM-dd}.old.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%X{key}]%date{"yyyy-MM-dd'T'HH:mm:ss,SSSXXX", UTC} %-5level %logger{35} - %msg %n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="all" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${catalina.home:-.}/logs/x/search-ui/all.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${catalina.home:-.}/logs/x/archive/search-ui/all.%d{yyyy-MM-dd}.old.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%X{key}]%date{"yyyy-MM-dd'T'HH:mm:ss,SSSXXX", UTC} %-5level %logger{35} - %msg %n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="app" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${catalina.home:-.}/logs/x/search-ui/app.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${catalina.home:-.}/logs/x/archive/search-ui/app.%d{yyyy-MM-dd}.old.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%X{key}]%date{"yyyy-MM-dd'T'HH:mm:ss,SSSXXX", UTC} %-5level %logger{35} - %msg %n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="orm" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${catalina.home:-.}/logs/x/search-ui/orm.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${catalina.home:-.}/logs/x/archive/search-ui/orm.%d{yyyy-MM-dd}.old.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%X{key}]%date{"yyyy-MM-dd'T'HH:mm:ss,SSSXXX", UTC} %-5level %logger{35} - %msg %n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="cache" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${catalina.home:-.}/logs/x/search-ui/cache.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${catalina.home:-.}/logs/x/archive/search-ui/cache.%d{yyyy-MM-dd}.old.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%X{key}]%date{"yyyy-MM-dd'T'HH:mm:ss,SSSXXX", UTC} %-5level %logger{35} - %msg %n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.springframework" level="trace" additivity="false">
+        <appender-ref ref="spring" />
+    </logger>
+
+    <logger name="org.springframework.cache" level="warn" additivity="false">
+        <appender-ref ref="cache" />
+    </logger>
+
+    <logger name="org.springframework.data.redis" level="warn" additivity="false">
+        <appender-ref ref="cache" />
+    </logger>
+
+    <logger name="redis.clients.jedis" level="warn" additivity="false">
+        <appender-ref ref="cache" />
+    </logger>
+
+    <logger name="com.gdn" level="debug" additivity="false">
+        <appender-ref ref="app" />
+    </logger>
+
+    <logger name="org.hibernate" level="warn" additivity="false">
+        <appender-ref ref="orm" />
+    </logger>
+  
+    <logger name="org.apache.catalina.core" level="INFO" />
+
+    <logger name="com.gdn.iam.spring.security.FortressDecisionVoter" level="trace" additivity="false">
+        <appender-ref ref="app" />
+    </logger>
+  
+    <root level="warn">
+        <appender-ref ref="stdout" />
+        <appender-ref ref="all" />
+    </root>
+</included>

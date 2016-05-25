@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:metrics="http://www.ryantenney.com/schema/metrics"
+       xmlns:cache="http://www.springframework.org/schema/cache" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+        http://www.ryantenney.com/schema/metrics http://www.ryantenney.com/schema/metrics/metrics-3.0.xsd">
+    <context:property-placeholder
+        location="file:///${X_CONF_DIR}/search-ui/app.properties,file:///${X_CONF_DIR}/search-ui/search-client.properties" ignore-resource-not-found="false" ignore-unresolvable="false" />
+  
+    <context:component-scan base-package="com.gdn.x.ui.search.service" />
+  
+    <bean id="searchClientConfig"
+        class="com.gdn.x.search.clientsdk.shade.com.gdn.common.client.GdnRestClientConfiguration">
+        <constructor-arg index="0" type="String"
+                     value="${searchClient.username}" />
+        <constructor-arg index="1" type="String"
+                     value="${searchClient.password}" />
+        <constructor-arg index="2" type="String" value="${searchClient.host}" />
+        <constructor-arg index="3" type="Integer" value="${searchClient.port}" />
+        <constructor-arg index="4" type="String"
+                     value="${clientId}" />
+        <constructor-arg index="5" type="String"
+                     value="${channelId}" />
+        <constructor-arg index="6" type="String"
+                     value="${storeId}" />
+        <property name="connectionTimeoutInMs" value="${searchClient.connectionTimeoutInMs}" />
+    </bean>
+  
+    <bean id="searchClient" class="com.gdn.x.search.client.CartClient">
+        <constructor-arg index="0" ref="searchClientConfig"
+                     type="com.gdn.x.search.clientsdk.shade.com.gdn.common.client.GdnRestClientConfiguration" />
+        <constructor-arg index="1" value="${searchClient.contextPath}" />
+    </bean>
+  
+    <bean id="shippingClientConfig"
+        class="com.gdn.x.shipping.clientsdk.shade.com.gdn.common.client.GdnRestClientConfiguration">
+        <constructor-arg index="0" type="String"
+                     value="${shippingClient.username}" />
+        <constructor-arg index="1" type="String"
+                     value="${shippingClient.password}" />
+        <constructor-arg index="2" type="String" value="${shippingClient.host}" />
+        <constructor-arg index="3" type="Integer" value="${shippingClient.port}" />
+        <constructor-arg index="4" type="String"
+                     value="${clientId}" />
+        <constructor-arg index="5" type="String"
+                     value="${channelId}" />
+        <constructor-arg index="6" type="String"
+                     value="${shippingClient.storeId}" />
+        <property name="connectionTimeoutInMs" value="${shippingClient.connectionTimeoutInMs}" />
+    </bean>
+
+    <bean id="shippingClient" class="com.gdn.x.shipping.client.ShippingClient">
+        <constructor-arg index="0" ref="shippingClientConfig"
+                     type="com.gdn.x.shipping.clientsdk.shade.com.gdn.common.client.GdnRestClientConfiguration" />
+        <constructor-arg index="1" type="String"
+                     value="${shippingClient.contextPath}" />
+    </bean>
+  
+    <bean id="promotionClientConfig"
+        class="com.gdn.x.promotion.clientsdk.shade.com.gdn.common.client.GdnRestClientConfiguration">
+        <constructor-arg index="0" type="String"
+                     value="${promotionClient.username}" />
+        <constructor-arg index="1" type="String"
+                     value="${promotionClient.password}" />
+        <constructor-arg index="2" type="String" value="${promotionClient.host}" />
+        <constructor-arg index="3" type="Integer" value="${promotionClient.port}" />
+        <constructor-arg index="4" type="String"
+                     value="${clientId}" />
+        <constructor-arg index="5" type="String"
+                     value="${channelId}" />
+        <constructor-arg index="6" type="String"
+                     value="${storeId}" />
+        <property name="connectionTimeoutInMs" value="${promotionClient.connectionTimeoutInMs}" />
+    </bean>
+
+    <bean id="promotionClient" class="com.gdn.x.promotion.client.PromotionClient">
+        <constructor-arg index="0" ref="promotionClientConfig"
+                     type="com.gdn.x.promotion.clientsdk.shade.com.gdn.common.client.GdnRestClientConfiguration" />
+        <constructor-arg index="1" type="String"
+                     value="${promotionClient.contextPath}" />
+    </bean>
+  
+    <bean id="paymentClientConfig"
+         class="com.gdn.x.paymentservice.clientsdk.shade.com.gdn.common.client.GdnRestClientConfiguration">
+        <constructor-arg index="0" type="String"
+                     value="${payment.username}" />
+        <constructor-arg index="1" type="String"
+                     value="${payment.password}" />
+        <constructor-arg index="2" type="String" value="${payment.hostname}" />
+        <constructor-arg index="3" type="Integer" value="${payment.port}" />
+        <constructor-arg index="4" type="String"
+                     value="${clientId}" />
+        <constructor-arg index="5" type="String"
+                     value="${channelId}" />
+        <constructor-arg index="6" type="String"
+                     value="${payment.storeId}" />
+        <property name="connectionTimeoutInMs" value="${payment.connectionTimeoutInMs}" />
+    </bean>
+
+    <bean id="paymentClient" class="com.gdn.x.payment.service.client.PaymentClient">
+        <constructor-arg index="0" ref="paymentClientConfig"
+                     type="com.gdn.x.paymentservice.clientsdk.shade.com.gdn.common.client.GdnRestClientConfiguration" />
+    </bean>
+
+
+    <bean id="dozerMapper" class="org.dozer.DozerBeanMapper" />
+    <bean id="dozerMapperServiceImpl" class="com.gdn.x.ui.search.service.impl.DozerMapperServiceImpl">
+        <constructor-arg ref="dozerMapper" />
+    </bean>
+    <bean id="healthCheckPing" class="com.gdn.x.base.ui.web.healthcheck.HealthCheckPing" />
+
+    <metrics:register metric-registry="metric-registry">
+        <bean metrics:name="jvm.gc"
+          class="com.codahale.metrics.jvm.GarbageCollectorMetricSet" />
+        <bean metrics:name="jvm.memory"
+          class="com.codahale.metrics.jvm.MemoryUsageGaugeSet" />
+        <bean metrics:name="jvm.thread-states"
+          class="com.codahale.metrics.jvm.ThreadStatesGaugeSet" />
+        <bean metrics:name="jvm.fd.usage"
+          class="com.codahale.metrics.jvm.FileDescriptorRatioGauge" />
+        <bean metrics:name="jvm.class-loading"
+          class="com.codahale.metrics.jvm.ClassLoadingGaugeSet" />
+    </metrics:register>
+</beans>

@@ -1,0 +1,4 @@
+maven.project.groupId=${maven.project.groupId}
+maven.project.artifactId=${maven.project.artifactId}
+maven.project.version=${maven.project.version}
+maven.build.time=${maven.build.time}

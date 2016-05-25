@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+  <util:list id="filterUrls" list-class="java.util.ArrayList"
+             value-type="com.gdn.iam.spring.security.IamPermissionModel">
+    <!-- api section -->
+    <!--<ref bean="plainApiGet" />
+    <ref bean="plainApiPost" />-->
+    <ref bean="findOrderCartByOrderIdApi"/>
+    <ref bean="getOrderApi"/>
+    <ref bean="addToCartApi"/>
+    <ref bean="applyCouponApi"/>
+    <ref bean="applyPromoCodeApi"/>
+    <ref bean="approveResendOrderApi"/>
+    <ref bean="changePaymentApi"/>
+    <ref bean="changeShippingOrAddressApi"/>
+    <ref bean="checkoutApi"/>
+    <ref bean="deletePendingCartApi"/>
+    <ref bean="findPendingCartByCustomerUsernameApi"/>
+    <ref bean="getShippingListApi"/>
+    <ref bean="getProductItemByNameOrSKUApi"/>
+    <ref bean="getUserWalletApi"/>
+    <ref bean="payCartApi"/>
+    <ref bean="rejectResendOrderApi"/>
+    <ref bean="removeCouponApi"/>
+    <ref bean="removePromoCodeApi"/>
+    <ref bean="requestResendOrderApi"/>
+    <ref bean="updateCartItemQuantityApi"/>
+    <ref bean="updatePaymentConfirmationApi"/>
+    <ref bean="getProductItemByExactProductItemSkuApi"/>
+    <ref bean="findPendingCartByCustomerUsernameAndSyncCartItemDataToSolrApi"/>
+    <ref bean="getProductItemByProductSkuApi"/>
+    <ref bean="cancelOrderApi"/>
+    <ref bean="getOrderByOrderIdApi"/>
+    <ref bean="getMemberApi"/>
+
+    <!-- view section -->
+    <ref bean="saveView"/>
+    <ref bean="manageOrderView"/>
+    <ref bean="detailOrderView"/>
+    <ref bean="canceledOrderView"/>
+    <ref bean="requestedOrderView"/>
+    <ref bean="cancelOrderView"/>
+
+  </util:list>
+
+  <util:list id="applicationRoles" list-class="java.util.ArrayList"
+             value-type="com.gdn.iam.spring.security.IamRoleModel">
+    <ref bean="CRTRead"/>
+
+    <ref bean="fraudRead"/>
+    <ref bean="financeRead"/>
+    <ref bean="customerserviceRead"/>
+
+    <ref bean="fraudWrite"/>
+    <ref bean="financeWrite"/>
+    <ref bean="customerserviceWrite"/>
+  </util:list>
+
+  <util:list id="applicationRolePermissions" list-class="java.util.ArrayList"
+             value-type="com.gdn.iam.spring.security.IamRolePermissionModel">
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="fraudWrite"/>
+      <property name="permission" ref="addToCartApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="customerserviceWrite"/>
+      <property name="permission" ref="addToCartApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="fraudWrite"/>
+      <property name="permission" ref="applyCouponApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="customerserviceWrite"/>
+      <property name="permission" ref="applyCouponApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="fraudWrite"/>
+      <property name="permission" ref="applyPromoCodeApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="customerserviceWrite"/>
+      <property name="permission" ref="applyPromoCodeApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="financeWrite"/>
+      <property name="permission" ref="approveResendOrderApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="fraudWrite"/>
+      <property name="permission" ref="changePaymentApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="customerserviceWrite"/>
+      <property name="permission" ref="changePaymentApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="fraudWrite"/>
+      <property name="permission" ref="changeShippingOrAddressApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="customerserviceWrite"/>
+      <property name="permission" ref="changeShippingOrAddressApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="fraudWrite"/>
+      <property name="permission" ref="checkoutApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="customerserviceWrite"/>
+      <property name="permission" ref="checkoutApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="fraudWrite"/>
+      <property name="permission" ref="deletePendingCartApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="customerserviceWrite"/>
+      <property name="permission" ref="deletePendingCartApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="fraudWrite"/>
+      <property name="permission" ref="payCartApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="customerserviceWrite"/>
+      <property name="permission" ref="payCartApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="financeWrite"/>
+      <property name="permission" ref="rejectResendOrderApi"/>
+      <property name="method" value="post"/>
+    </bean>
+
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="fraudWrite"/>
+      <property name="permission" ref="removeCouponApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="customerserviceWrite"/>
+      <property name="permission" ref="removeCouponApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="fraudWrite"/>
+      <property name="permission" ref="removePromoCodeApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="customerserviceWrite"/>
+      <property name="permission" ref="removePromoCodeApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="fraudWrite"/>
+      <property name="permission" ref="requestResendOrderApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="fraudWrite"/>
+      <property name="permission" ref="updateCartItemQuantityApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="customerserviceWrite"/>
+      <property name="permission" ref="updateCartItemQuantityApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="fraudWrite"/>
+      <property name="permission" ref="updatePaymentConfirmationApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="customerserviceWrite"/>
+      <property name="permission" ref="updatePaymentConfirmationApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="CRTRead"/>
+      <property name="permission" ref="getOrderApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="CRTRead"/>
+      <property name="permission" ref="getMemberApi"/>
+      <property name="method" value="get"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="CRTRead"/>
+      <property name="permission" ref="findOrderCartByOrderIdApi"/>
+      <property name="method" value="get"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="CRTRead"/>
+      <property name="permission" ref="findPendingCartByCustomerUsernameApi"/>
+      <property name="method" value="get"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="CRTRead"/>
+      <property name="permission" ref="getShippingListApi"/>
+      <property name="method" value="get"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="CRTRead"/>
+      <property name="permission" ref="getProductItemByNameOrSKUApi"/>
+      <property name="method" value="get"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="CRTRead"/>
+      <property name="permission" ref="getUserWalletApi"/>
+      <property name="method" value="get"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="CRTRead"/>
+      <property name="permission" ref="getProductItemByExactProductItemSkuApi"/>
+      <property name="method" value="get"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="CRTRead"/>
+      <property name="permission"
+                ref="findPendingCartByCustomerUsernameAndSyncCartItemDataToSolrApi"/>
+      <property name="method" value="get"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="CRTRead"/>
+      <property name="permission" ref="getProductItemByProductSkuApi"/>
+      <property name="method" value="get"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="customerserviceWrite"/>
+      <property name="permission" ref="cancelOrderApi"/>
+      <property name="method" value="post"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="CRTRead"/>
+      <property name="permission" ref="getOrderByOrderIdApi"/>
+      <property name="method" value="get"/>
+    </bean>
+
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="fraudRead"/>
+      <property name="permission" ref="saveView"/>
+      <property name="method" value="get"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="customerserviceRead"/>
+      <property name="permission" ref="saveView"/>
+      <property name="method" value="get"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="CRTRead"/>
+      <property name="permission" ref="canceledOrderView"/>
+      <property name="method" value="get"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="CRTRead"/>
+      <property name="permission" ref="requestedOrderView"/>
+      <property name="method" value="get"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="fraudRead"/>
+      <property name="permission" ref="detailOrderView"/>
+      <property name="method" value="get"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="financeRead"/>
+      <property name="permission" ref="manageOrderView"/>
+      <property name="method" value="get"/>
+    </bean>
+    <bean class="com.gdn.iam.spring.security.IamRolePermissionModel">
+      <property name="role" ref="customerserviceRead"/>
+      <property name="permission" ref="cancelOrderView"/>
+      <property name="method" value="get"/>
+    </bean>
+  </util:list>
+
+  <!-- ==================== -->
+  <!-- Model Permission Start -->
+  <!-- ==================== -->
+
+  <!-- API URL -->
+  <!--<bean id="plainApiGet" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api" />
+    <property name="description" value="" />
+  </bean>
+  <bean id="plainApiPost" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api" />
+    <property name="description" value="" />
+  </bean>-->
+  <bean id="getOrderApi" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/find-order"/>
+    <property name="description" value="Mendapatkan data order"/>
+  </bean>
+  <bean id="getMemberApi" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/find-member"/>
+    <property name="description" value="Mendapatkan data customer"/>
+  </bean>
+  <bean id="addToCartApi" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/add-to-cart"/>
+    <property name="description" value="Menambahkan item ke cart"/>
+  </bean>
+  <bean id="applyCouponApi" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/apply-coupon"/>
+    <property name="description" value="Menggunakan kupon pada cart"/>
+  </bean>
+  <bean id="applyPromoCodeApi" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/apply-promo-code"/>
+    <property name="description" value="Menggunakan promotion code pada cart"/>
+  </bean>
+  <bean id="approveResendOrderApi" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/approve-resend-order"/>
+    <property name="description" value="Menyetujui resend order"/>
+  </bean>
+  <bean id="changePaymentApi" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/change-payment"/>
+    <property name="description" value="Mengubah tipe payment"/>
+  </bean>
+  <bean id="changeShippingOrAddressApi" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/change-shipping"/>
+    <property name="description" value="Mengubah alamat dan kurir pengiriman"/>
+  </bean>
+  <bean id="checkoutApi" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/checkout"/>
+    <property name="description" value="Checkout"/>
+  </bean>
+  <bean id="deletePendingCartApi" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/remove-pending-cart"/>
+    <property name="description" value="Menghapus cart"/>
+  </bean>
+  <bean id="findOrderCartByOrderIdApi" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/find-order-cart"/>
+    <property name="description" value="Mendapatkan order cart"/>
+  </bean>
+  <bean id="findPendingCartByCustomerUsernameApi"
+        class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/find-pending-cart"/>
+    <property name="description" value="Mendapatkan cart"/>
+  </bean>
+  <bean id="getShippingListApi" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/find-shipping-list"/>
+    <property name="description" value="Mendapatkan daftar kurir pengiriman"/>
+  </bean>
+  <bean id="getProductItemByNameOrSKUApi" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/find-product-item-auto-complete"/>
+    <property name="description" value="Mendapatkan product item berdasarkan SKU ditampilkan dengan autocomplete"/>
+  </bean>
+  <bean id="getUserWalletApi" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/find-user-wallet"/>
+    <property name="description" value="Mendapatkan wallet customer"/>
+  </bean>
+  <bean id="payCartApi" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/pay"/>
+    <property name="description" value="Melakukan bayar sekarang"/>
+  </bean>
+  <bean id="rejectResendOrderApi" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/reject-resend-order"/>
+    <property name="description" value="Menolak resend order"/>
+  </bean>
+  <bean id="removeCouponApi" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/remove-coupon"/>
+    <property name="description" value="Menghapus kupon yang sudah digunakan pada cart"/>
+  </bean>
+  <bean id="removePromoCodeApi" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/remove-promo-code"/>
+    <property name="description" value="Menghapus promotion code yang sudah digunakan pada cart"/>
+  </bean>
+  <bean id="requestResendOrderApi" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/request-resend-order"/>
+    <property name="description" value="Meminta persetujuan untuk resend order"/>
+  </bean>
+  <bean id="updateCartItemQuantityApi" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/update-cart-item-quantity"/>
+    <property name="description" value="Mengubah quantity suatu item pada cart"/>
+  </bean>
+  <bean id="updatePaymentConfirmationApi" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/update-payment-confirmation"/>
+    <property name="description" value="Mengubah konfirmasi payment"/>
+  </bean>
+  <bean id="getProductItemByExactProductItemSkuApi"
+        class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/find-product-item-by-product-item-sku"/>
+    <property name="description" value="Mendapatkan product item berdasarkan product item sku"/>
+  </bean>
+  <bean id="findPendingCartByCustomerUsernameAndSyncCartItemDataToSolrApi"
+        class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/find-and-sync-pending-cart"/>
+    <property name="description" value="Mendapatkan cart berdasarkan customer username"/>
+  </bean>
+  <bean id="getProductItemByProductSkuApi" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/find-product-item-by-product-sku"/>
+    <property name="description" value="Mendapatkan product item berdasarkan product sku"/>
+  </bean>
+  <bean id="cancelOrderApi" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/cancel-order"/>
+    <property name="description" value="Melakukan pembatalan order"/>
+  </bean>
+  <bean id="getOrderByOrderIdApi" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/api/get-order-by-order-id"/>
+    <property name="description" value="Mendapatkan data order berdasarkan order id"/>
+  </bean>
+
+  <!-- VIEW URL -->
+  <bean id="saveView" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/view/save"/>
+    <property name="description" value="Mengakses halaman create order"/>
+  </bean>
+  <bean id="canceledOrderView" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/view/cancelled-order"/>
+    <property name="description" value="Mengakses halaman summary dari order yang telah dibatalkan karena aging"/>
+  </bean>
+  <bean id="requestedOrderView" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/view/requested-order"/>
+    <property name="description" value="Mengakses halaman summary permintaan untuk resend order"/>
+  </bean>
+  <bean id="manageOrderView" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/view/manage-order/"/>
+    <property name="description" value="Mengakses halaman pengelolaan suatu order"/>
+  </bean>
+  <bean id="detailOrderView" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/view/detail-order/"/>
+    <property name="description" value="Mengakses halaman detail order"/>
+  </bean>
+  <bean id="cancelOrderView" class="com.gdn.iam.spring.security.IamPermissionModel">
+    <property name="url" value="/view/cancel-order"/>
+    <property name="description" value="Mengakses halaman cancel order"/>
+  </bean>
+
+  <!-- ==================== -->
+  <!-- Model Permission End -->
+  <!-- ==================== -->
+  <!-- ==================== -->
+  <!-- Application Roles Start -->
+  <!-- ==================== -->
+  <bean id="CRTRead" class="com.gdn.iam.spring.security.IamRoleModel">
+    <property name="name" value="FUNCTION_X-CRT_CRT_READ"/>
+    <property name="description" value="read function on cart service at CART-ui"/>
+  </bean>
+
+  <bean id="fraudRead" class="com.gdn.iam.spring.security.IamRoleModel">
+    <property name="name" value="FUNCTION_X-CRT_FRD_READ"/>
+    <property name="description" value="read function on fraud service at CART-ui"/>
+  </bean>
+  <bean id="financeRead" class="com.gdn.iam.spring.security.IamRoleModel">
+    <property name="name" value="FUNCTION_X-CRT_FNC_READ"/>
+    <property name="description" value="read function on finance service at CART-ui"/>
+  </bean>
+  <bean id="customerserviceRead" class="com.gdn.iam.spring.security.IamRoleModel">
+    <property name="name" value="FUNCTION_X-CRT_CSR_READ"/>
+    <property name="description" value="read function on fraud service at CART-ui"/>
+  </bean>
+
+  <bean id="fraudWrite" class="com.gdn.iam.spring.security.IamRoleModel">
+    <property name="name" value="FUNCTION_X-CRT_FRD_WRITE"/>
+    <property name="description" value="write function on fraud service at CART-ui"/>
+  </bean>
+  <bean id="financeWrite" class="com.gdn.iam.spring.security.IamRoleModel">
+    <property name="name" value="FUNCTION_X-CRT_FNC_WRITE"/>
+    <property name="description" value="write function on finance service at CART-ui"/>
+  </bean>
+  <bean id="customerserviceWrite" class="com.gdn.iam.spring.security.IamRoleModel">
+    <property name="name" value="FUNCTION_X-CRT_CSR_WRITE"/>
+    <property name="description" value="write function on fraud service at CART-ui"/>
+  </bean>
+  <!-- ==================== -->
+  <!-- Application Roles End -->
+  <!-- ==================== -->
+</beans>
